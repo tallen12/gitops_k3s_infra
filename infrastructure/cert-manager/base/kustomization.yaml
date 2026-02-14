@@ -9,4 +9,4 @@ helmCharts:
 
 resources:
   - issuer.yaml
-  - secrets/git_key.yaml
+  - secrets/cloudflare.yaml
