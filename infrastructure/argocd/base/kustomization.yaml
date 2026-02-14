@@ -10,14 +10,14 @@ resources:
 - secrets/git_key.yaml
 
 patches:
-  - path: config_map_patch.yaml
-    target:
-      kind: ConfigMap
-      name: argocd-cm
-  # - patch: |-
-  #     - op: replace
-  #       path: /data/kustomize.buildOptions
-  #       value: "--enable-helm"
+  # - path: config_map_patch.yaml
   #   target:
   #     kind: ConfigMap
   #     name: argocd-cm
+  - patch: |-
+      - op: replace
+        path: /data/kustomize.buildOptions
+        value: "--enable-helm"
+    target:
+      kind: ConfigMap
+      name: argocd-cm
