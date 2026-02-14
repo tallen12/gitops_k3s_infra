@@ -9,14 +9,11 @@ spec:
   - list:
       elements:
       - service: argocd
-        path: infrastructure/argocd/base
       - service: cert-manager
-        path: infrastructure/cert-manager/base
+        overlay: local
         url: git@github.com:tallen12/k3s_overlays.git
       - service: istio
-        path: infrastructure/istio/base
       - service: secret-management
-        path: infrastructure/istio/base
   strategy:
     type: RollingSync
     rollingSync:
@@ -43,7 +40,7 @@ spec:
       source:
         repoURL: '{{ .url | default  "git@github.com:tallen12/gitops_k3s_infra.git"}}'
         targetRevision: main
-        path: '{{ .path }}'
+        path: 'infrastructure\{{ .path }}\{{ .overlay | default base}}'
       destination:
         name: in-cluster
       syncPolicy:
