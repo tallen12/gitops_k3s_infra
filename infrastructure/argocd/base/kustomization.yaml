@@ -6,7 +6,7 @@ resources:
 - namespace.yaml
 - https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 - default_project.yaml
-- config_map_patch.yaml
+# - config_map_patch.yaml
 - secrets/git_key.yaml
 
 # patches:
