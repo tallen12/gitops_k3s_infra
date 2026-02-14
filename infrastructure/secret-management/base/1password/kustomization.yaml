@@ -6,6 +6,8 @@ helmCharts:
   - repo: https://1password.github.io/connect-helm-charts
     version: 2.3.0
     name: connect
+    releaseName: one-password-connect
+    namespace: external-secrets
     valuesInline:
       connect:
         serviceType: ClusterIP
