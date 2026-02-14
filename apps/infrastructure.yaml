@@ -42,7 +42,7 @@ spec:
         targetRevision: main
         path: 'infrastructure\{{ .path }}\{{ .overlay | default "base"}}'
       destination:
-        name: https://kubernetes.default.svc
+        server: https://kubernetes.default.svc
       syncPolicy:
         automated:
           prune: true
