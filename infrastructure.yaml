@@ -9,11 +9,11 @@ spec:
   - list:
       elements:
       - service: argocd
+      - service: secret-management
       - service: cert-manager
         overlay: local
         url: git@github.com:tallen12/k3s_overlays.git
       - service: istio
-      - service: secret-management
   strategy:
     type: RollingSync
     rollingSync:
@@ -22,12 +22,12 @@ spec:
             - key: infra-service
               operator: In
               values:
+                - argocd
                 - secret-management
         - matchExpressions:
             - key: infra-service
               operator: In
               values:
-                - argocd
                 - istio
                 - cert-manager
   template:
