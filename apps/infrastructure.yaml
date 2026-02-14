@@ -40,7 +40,7 @@ spec:
       source:
         repoURL: '{{ .url | default  "git@github.com:tallen12/gitops_k3s_infra.git"}}'
         targetRevision: main
-        path: 'infrastructure\{{ .path }}\{{ .overlay | default base}}'
+        path: 'infrastructure\{{ .path }}\{{ .overlay | default "base"}}'
       destination:
         name: in-cluster
       syncPolicy:
