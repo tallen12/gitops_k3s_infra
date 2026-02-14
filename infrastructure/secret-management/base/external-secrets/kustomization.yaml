@@ -8,3 +8,5 @@ helmCharts:
     releaseName: external-secrets
     includeCRDs: false
     namespace: external-secrets
+    valuesInline:
+      installCRDs: false
