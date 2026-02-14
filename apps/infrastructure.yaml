@@ -10,10 +10,10 @@ spec:
       elements:
       - service: argocd
       - service: secret-management
-      - service: cert-manager
-        overlay: local
-        url: git@github.com:tallen12/k3s_overlays.git
-      - service: istio
+      # - service: cert-manager
+      #   overlay: local
+      #   url: git@github.com:tallen12/k3s_overlays.git
+      # - service: istio
   strategy:
     type: RollingSync
     rollingSync:

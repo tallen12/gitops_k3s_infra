@@ -3,14 +3,9 @@ kind: Kustomization
 
 namespace: external-secrets
 
-helmCharts:
-  - repo: https://charts.external-secrets.io
-    version: 2.0.0
-    name: external-secrets
-    releaseName: external-secrets
-    includeCRDs: true
-    namespace: external-secrets
 
 resources:
+  - https://raw.githubusercontent.com/external-secrets/external-secrets/<replace_with_your_version>/deploy/crds/bundle.yaml
   - namespace.yaml
+  - external-secrets
   - 1password
