@@ -1,0 +1,11 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+helmCharts:
+  - repo: https://charts.external-secrets.io
+    version: 2.0.0
+    name: external-secrets
+    includeCRDs: true        
+
+resources:
+  - 1password

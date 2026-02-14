@@ -6,3 +6,9 @@ resources:
 - namespace.yaml
 - secrets/git_key.yaml
 - https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+
+patches:
+  - path: config_map_patch.yaml
+    target:
+      namespace: argocd
+      name: argocd-cm
