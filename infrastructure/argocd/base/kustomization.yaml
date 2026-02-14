@@ -6,7 +6,7 @@ resources:
 - namespace.yaml
 - https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 - default_project.yaml
-- secrets/github_ssh.yaml
+# - secrets/github_ssh.yaml
 
 patches:
   - patch: |-
