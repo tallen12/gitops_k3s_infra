@@ -42,7 +42,7 @@ spec:
         targetRevision: main
         path: 'infrastructure/{{ .service }}/{{ .overlay | default "base"}}'
       destination:
-        server: https://kubernetes.default.svc
+        name: in-cluster
       syncPolicy:
         automated:
           prune: true
