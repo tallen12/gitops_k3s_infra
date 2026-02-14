@@ -23,10 +23,6 @@ spec:
               operator: In
               values:
                 - argocd
-        - matchExpressions:
-            - key: infra-service
-              operator: In
-              values:
                 - secret-management
         - matchExpressions:
             - key: infra-service
