@@ -5,19 +5,19 @@ namespace: argocd
 resources:
 - namespace.yaml
 - https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
-- default_project.yaml
+# - default_project.yaml
 # - config_map_patch.yaml
-- secrets/git_key.yaml
+# - secrets/git_key.yaml
 
-# patches:
-#   # - path: config_map_patch.yaml
-#   #   target:
-#   #     kind: ConfigMap
-#   #     name: argocd-cm
-#   - patch: |-
-#       - op: replace
-#         path: /data/kustomize.buildOptions
-#         value: "--enable-helm"
-#     target:
-#       kind: ConfigMap
-#       name: argocd-cm
+patches:
+  # - path: config_map_patch.yaml
+  #   target:
+  #     kind: ConfigMap
+  #     name: argocd-cm
+  - patch: |-
+      - op: replace
+        path: /data/kustomize.buildOptions
+        value: "--enable-helm"
+    target:
+      kind: ConfigMap
+      name: argocd-cm
