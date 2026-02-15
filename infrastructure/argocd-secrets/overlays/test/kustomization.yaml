@@ -7,5 +7,9 @@ resources:
 
 
 patches:
-  - path: patch_external_secret.yaml
-  - path: patch_secret
+  - patch: |-
+      - op: replace
+        path: /metadata/namespace
+        value: test-secret-namespace
+    target:
+      namespace: argocd
