@@ -1,0 +1,10 @@
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  namespace: test-secret-namespace
+---
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  namespace: test-secret-namespace
