@@ -13,9 +13,13 @@ helmCharts:
  - repo: https://istio-release.storage.googleapis.com/charts
    name: istiod
    version: 1.28.3
+   valuesInline:
+     profile: ambient
  - repo: https://istio-release.storage.googleapis.com/charts
    name: ztunnel
    version: 1.28.3
+   valuesInline:
+     profile: ambient
 
 
 
