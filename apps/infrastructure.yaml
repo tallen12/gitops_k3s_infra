@@ -11,6 +11,7 @@ spec:
       - service: argocd
       - service: external-secrets
       - service: argocd-secrets
+      - service: 1password
       # - service: cert-manager
       #   overlay: local
       #   url: git@github.com:tallen12/k3s_overlays.git
@@ -30,6 +31,7 @@ spec:
               operator: In
               values:
                 - argocd-secrets
+                - 1password
         - matchExpressions:
             - key: infra-service
               operator: In
