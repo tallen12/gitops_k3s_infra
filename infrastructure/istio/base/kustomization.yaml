@@ -20,6 +20,6 @@ helmCharts:
 
 
 resources:
-- base/namespace.yaml
+- namespace.yaml
 - github.com/kubernetes-sigs/gateway-api/config/crd?ref=v1.4.1
 
