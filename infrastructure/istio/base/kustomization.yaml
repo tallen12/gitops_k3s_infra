@@ -12,7 +12,8 @@ helmCharts:
    version: 1.28.3
    valuesInline:
      profile: ambient
-     global.platform: k3s
+     # https://istio.io/latest/docs/ambient/install/platform-prerequisites/#k3s 
+     # global.platform: k3s
      cniConfDir: /var/lib/rancher/k3s/agent/etc/cni/net.d
      cniBinDir: /var/lib/rancher/k3s/data/current/bin/
 
