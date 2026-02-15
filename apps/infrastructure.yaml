@@ -47,8 +47,7 @@ spec:
       project: default
       ignoreDifferences:
         # Ignore specific fields within the ExternalSecret resource
-        - group: external-secrets.io
-          kind: ExternalSecret
+        - kind: ExternalSecret
           jsonPointers:
             - /spec/refreshInterval
             - /status
