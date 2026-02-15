@@ -9,10 +9,6 @@ helmCharts:
    version: 1.28.3
    valuesInline:
      profile: ambient
-     # https://istio.io/latest/docs/ambient/install/platform-prerequisites/#k3s 
-    #  global.platform: k3s
-     cniConfDir: /var/lib/rancher/k3s/agent/etc/cni/net.d
-     cniBinDir: /var/lib/rancher/k3s/data/current/bin/
 
  - repo: https://istio-release.storage.googleapis.com/charts
    name: cni
@@ -20,29 +16,20 @@ helmCharts:
    valuesInline:
      profile: ambient
      # https://istio.io/latest/docs/ambient/install/platform-prerequisites/#k3s
-    #  global.platform: k3s
-     cniConfDir: /var/lib/rancher/k3s/agent/etc/cni/net.d
-     cniBinDir: /var/lib/rancher/k3s/data/current/bin/
+     global:
+        platform: k3s
 
  - repo: https://istio-release.storage.googleapis.com/charts
    name: istiod
    version: 1.28.3
    valuesInline:
      profile: ambient
-     # https://istio.io/latest/docs/ambient/install/platform-prerequisites/#k3s
-    #  global.platform: k3s
-     cniConfDir: /var/lib/rancher/k3s/agent/etc/cni/net.d
-     cniBinDir: /var/lib/rancher/k3s/data/current/bin/
 
  - repo: https://istio-release.storage.googleapis.com/charts
    name: ztunnel
    version: 1.28.3
    valuesInline:
      profile: ambient
-     # https://istio.io/latest/docs/ambient/install/platform-prerequisites/#k3s
-    #  global.platform: k3s
-     cniConfDir: /var/lib/rancher/k3s/agent/etc/cni/net.d
-     cniBinDir: /var/lib/rancher/k3s/data/current/bin/
 
 
 
