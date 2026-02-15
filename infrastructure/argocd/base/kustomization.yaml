@@ -14,7 +14,7 @@ patches:
     target:
       kind: ConfigMap
       name: argocd-cm
-  - path: config_map_patch.yaml
-    target:
-      kind: ConfigMap
-      name: argocd-cm
+  # - path: config_map_patch.yaml
+  #   target:
+  #     kind: ConfigMap
+  #     name: argocd-cm
