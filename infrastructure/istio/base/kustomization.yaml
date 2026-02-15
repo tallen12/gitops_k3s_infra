@@ -10,9 +10,9 @@ helmCharts:
    valuesInline:
      profile: ambient
      # https://istio.io/latest/docs/ambient/install/platform-prerequisites/#k3s 
-     global.platform: k3s
-    #  cniConfDir: /var/lib/rancher/k3s/agent/etc/cni/net.d
-    #  cniBinDir: /var/lib/rancher/k3s/data/current/bin/
+    #  global.platform: k3s
+     cniConfDir: /var/lib/rancher/k3s/agent/etc/cni/net.d
+     cniBinDir: /var/lib/rancher/k3s/data/current/bin/
 
  - repo: https://istio-release.storage.googleapis.com/charts
    name: cni
@@ -20,9 +20,9 @@ helmCharts:
    valuesInline:
      profile: ambient
      # https://istio.io/latest/docs/ambient/install/platform-prerequisites/#k3s
-     global.platform: k3s
-    #  cniConfDir: /var/lib/rancher/k3s/agent/etc/cni/net.d
-    #  cniBinDir: /var/lib/rancher/k3s/data/current/bin/
+    #  global.platform: k3s
+     cniConfDir: /var/lib/rancher/k3s/agent/etc/cni/net.d
+     cniBinDir: /var/lib/rancher/k3s/data/current/bin/
 
  - repo: https://istio-release.storage.googleapis.com/charts
    name: istiod
@@ -30,9 +30,9 @@ helmCharts:
    valuesInline:
      profile: ambient
      # https://istio.io/latest/docs/ambient/install/platform-prerequisites/#k3s
-     global.platform: k3s
-    #  cniConfDir: /var/lib/rancher/k3s/agent/etc/cni/net.d
-    #  cniBinDir: /var/lib/rancher/k3s/data/current/bin/
+    #  global.platform: k3s
+     cniConfDir: /var/lib/rancher/k3s/agent/etc/cni/net.d
+     cniBinDir: /var/lib/rancher/k3s/data/current/bin/
 
  - repo: https://istio-release.storage.googleapis.com/charts
    name: ztunnel
@@ -40,9 +40,9 @@ helmCharts:
    valuesInline:
      profile: ambient
      # https://istio.io/latest/docs/ambient/install/platform-prerequisites/#k3s
-     global.platform: k3s
-    #  cniConfDir: /var/lib/rancher/k3s/agent/etc/cni/net.d
-    #  cniBinDir: /var/lib/rancher/k3s/data/current/bin/
+    #  global.platform: k3s
+     cniConfDir: /var/lib/rancher/k3s/agent/etc/cni/net.d
+     cniBinDir: /var/lib/rancher/k3s/data/current/bin/
 
 
 
