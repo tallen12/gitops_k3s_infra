@@ -2,5 +2,4 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-- secrets/github_ssh_external_secret.yaml
 - secrets/github_ssh.yaml
