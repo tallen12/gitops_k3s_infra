@@ -52,6 +52,11 @@ spec:
           jsonPointers:
             - /spec/refreshInterval
             - /status
+            - /metadata/annotations/
+            - /metadata/creationTimestamp
+            - /metadata/generation
+            - /metadata/resourceVersion
+            - /metadata/uid
       source:
         repoURL: '{{ .url | default  "https://github.com/tallen12/gitops_k3s_infra.git"}}'
         targetRevision: main
