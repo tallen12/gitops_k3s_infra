@@ -55,7 +55,7 @@ spec:
             - /metadata/resourceVersion
             - /metadata/uid
       source:
-        repoURL: '{{ .url | default  "git@github.com:tallen12/k3s_overlays.git"}}'
+        repoURL: '{{ .url | default  "git@github.com:tallen12/gitops_k3s_infra.git"}}'
         targetRevision: main
         path: 'infrastructure/{{ .service }}/{{ .overlay | default "base"}}'
       destination:
