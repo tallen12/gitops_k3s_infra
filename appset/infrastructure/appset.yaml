@@ -24,20 +24,22 @@ spec:
                       service: '{{index .path.segments 1}}'
                       overlay: '{{.path.basename}}'
                       url: "git@github.com:tallen12/gitops_k3s_infra.git"
+                      basePath: '{{.path}}'
                 - list:
                     elements:
                       - service: '{{index .path.segments 1}}'
           - matrix:
               generators:
                 - git:
-                    repoURL: git@github.com:tallen12/gitops_k3s_infra.git
+                    repoURL: git@github.com:tallen12/private_k3s_configs.git
                     revision: HEAD
                     directories:
                     - path: infrastructure/*/local
                     values:
                       service: '{{index .path.segments 1}}'
                       overlay: '{{.path.basename}}'
-                      url: "git@github.com:tallen12/gitops_k3s_infra.git"
+                      overlayUrl: 'git@github.com:tallen12/private_k3s_configs.git'
+                      overlayPath: '{{.path}}'
                 - list:
                     elements:
                       - service: '{{index .path.segments 1}}'
@@ -60,10 +62,20 @@ spec:
             - /metadata/generation
             - /metadata/resourceVersion
             - /metadata/uid
+      {{if .values.overlayUrl}}
+      sources:
+        - repoURL: '{{.values.url}}'
+          path: '{{.values.basePath}}'
+          targetRevision: main
+        - repoURL: '{{.values.overlayUrl}}'
+          path: '{{.values.overlayPath}}'
+          targetRevision: main
+      {{else}}
       source:
         repoURL: '{{.values.url}}'
         targetRevision: main
         path: '{{.path.path}}'
+      {{end}}
       destination:
         name: in-cluster
       syncPolicy:
