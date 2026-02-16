@@ -17,10 +17,11 @@ spec:
               values:
                 service: '{{index .path.segments 1}}'
                 overlay: '{{.path.basename}}'
+                repoURL: '{{.repoURL}}'
           - list:
               elements:
                 - service: '{{index .path.segments 1}}'
-                - repoURL: '{{.repoURL}}'
+                - repoURL: '{{.values.repoURL}}'
 
     # - merge:
     #     mergeKeys:
