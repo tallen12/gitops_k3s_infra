@@ -15,7 +15,6 @@ spec:
         values:
           service: '{{index .path.segments 1}}'
           overlay: '{{.path.basename}}'
-          repoURL: '{{.repoURL}}'
 
     # - matrix:
     #     generators:
@@ -74,7 +73,7 @@ spec:
             - /metadata/resourceVersion
             - /metadata/uid
       source:
-        repoURL: '{{.values.repoURL}}'
+        repoURL: '{{.repoURL}}'
         targetRevision: main
         path: '{{.path.path}}'
       destination:
