@@ -7,21 +7,21 @@ spec:
   goTemplate: True
   goTemplateOptions: ["missingkey=error"]
   generators:
-    - git:
-        repoURL: git@github.com:tallen12/gitops_k3s_infra.git
-        revision: HEAD
-        directories:
-        - path: infrastructure/*/base
-        values:
-          service: '{{index .path.segments 1}}'
-          overlay: '{{.path.basename}}'
-          url: "git@github.com:tallen12/gitops_k3s_infra.git"
-    # - matrix:
-    #     generators:
-    #       - list:
-    #           elements:
-    #             - service: '{{index .path.segments 1}}'
-    #               repoURL: '{{.values.repoURL}}'
+    - matrix:
+        generators:
+          - git:
+              repoURL: git@github.com:tallen12/gitops_k3s_infra.git
+              revision: HEAD
+              directories:
+              - path: infrastructure/*/base
+              values:
+                service: '{{index .path.segments 1}}'
+                overlay: '{{.path.basename}}'
+                url: "git@github.com:tallen12/gitops_k3s_infra.git"
+          - list:
+              elements:
+                - service: '{{index .path.segments 1}}'
+                  repoURL: '{{.values.repoURL}}'
 
     # - merge:
     #     mergeKeys:
