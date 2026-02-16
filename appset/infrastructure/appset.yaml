@@ -62,7 +62,7 @@ spec:
             - /metadata/generation
             - /metadata/resourceVersion
             - /metadata/uid
-      {{if .values.overlayUrl}}
+      {{- if .values.overlayUrl}}
       sources:
         - repoURL: '{{.values.url}}'
           path: '{{.values.basePath}}'
@@ -70,12 +70,12 @@ spec:
         - repoURL: '{{.values.overlayUrl}}'
           path: '{{.values.overlayPath}}'
           targetRevision: main
-      {{else}}
+      {{- else}}
       source:
         repoURL: '{{.values.url}}'
         targetRevision: main
         path: '{{.path.path}}'
-      {{end}}
+      {{- end}}
       destination:
         name: in-cluster
       syncPolicy:
