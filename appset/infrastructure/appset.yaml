@@ -16,14 +16,13 @@ spec:
               generators:
                 - git:
                     repoURL: git@github.com:tallen12/gitops_k3s_infra.git
-                    revision: HEAD
+                    revision: main
                     directories:
                     - path: infrastructure/*/base
                     values:
                       service: '{{index .path.segments 1}}'
                       overlay: '{{.path.basename}}'
                       url: "git@github.com:tallen12/gitops_k3s_infra.git"
-                      basePath: '{{.path.path}}'
                 - list:
                     elements:
                       - service: '{{index .path.segments 1}}'
@@ -31,14 +30,13 @@ spec:
               generators:
                 - git:
                     repoURL: git@github.com:tallen12/private_k3s_configs.git
-                    revision: HEAD
+                    revision: main
                     directories:
-                    - path: infrastructure/*/local
+                    - path: infrastructure/*/base
                     values:
                       service: '{{index .path.segments 1}}'
                       overlay: '{{.path.basename}}'
-                      overlayUrl: 'git@github.com:tallen12/private_k3s_configs.git'
-                      overlayPath: '{{.path.path}}'
+                      url: 'git@github.com:tallen12/private_k3s_configs.git'
                 - list:
                     elements:
                       - service: '{{index .path.segments 1}}'
@@ -48,8 +46,13 @@ spec:
       labels:
         infra-service: '{{ .values.service }}'
         overlay: '{{.values.overlay}}'
+        gitrepo: '{{.values.url}}'
     spec:
       project: default
+      source:
+        repoURL: '{{.values.url}}'
+        targetRevision: main
+        path: '{{.path.path}}'
       ignoreDifferences:
         # Ignore specific fields within the ExternalSecret resource
         - kind: ExternalSecret
@@ -77,19 +80,3 @@ spec:
           - CreateNamespace=true
           - ServerSideApply=true
           - RespectIgnoreDifferences=true
-  templatePatch: |
-    spec:
-      {{- if .values.overlayUrl}}
-      sources:
-        - repoURL: '{{.values.url}}'
-          path: '{{.values.basePath}}'
-          targetRevision: main
-        - repoURL: '{{.values.overlayUrl}}'
-          path: '{{.values.overlayPath}}'
-          targetRevision: main
-      {{- else}}
-      source:
-        repoURL: '{{.values.url}}'
-        targetRevision: main
-        path: '{{.path.path}}'
-      {{- end}}
