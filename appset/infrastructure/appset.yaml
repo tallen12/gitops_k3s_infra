@@ -7,36 +7,50 @@ spec:
   goTemplate: True
   goTemplateOptions: ["missingkey=error"]
   generators:
-    - merge:
-        mergeKeys:
-          - service
-        generators:
-          - matrix:
-              generators:
-                - git:
-                    repoURL: git@github.com:tallen12/gitops_k3s_infra.git
-                    revision: HEAD
-                    directories:
-                    - path: infrastructure/*/base
-                    values:
-                      service: '{{index .path.segments 1}}'
-                      overlay: '{{.path.basename}}'
-                - list:
-                  elements:
-                    - service: '{{index .path.segments 1}}'
-          - matrix:
-              generators:
-                - git:
-                    repoURL: git@github.com:tallen12/private_k3s_configs.git
-                    revision: HEAD
-                    directories:
-                    - path: infrastructure/*/local
-                    values:
-                      service: '{{index .path.segments 1}}'
-                      overlay: '{{.path.basename}}'
-                - list:
-                  elements:
-                    - service: '{{index .path.segments 1}}'
+      - matrix:
+          generators:
+            - git:
+                repoURL: git@github.com:tallen12/gitops_k3s_infra.git
+                revision: HEAD
+                directories:
+                - path: infrastructure/*/base
+                values:
+                  service: '{{index .path.segments 1}}'
+                  overlay: '{{.path.basename}}'
+            - list: {}
+              elements:
+                - service: '{{index .path.segments 1}}'
+
+    # - merge:
+    #     mergeKeys:
+    #       - service
+    #     generators:
+    #       - matrix:
+    #           generators:
+    #             - git:
+    #                 repoURL: git@github.com:tallen12/gitops_k3s_infra.git
+    #                 revision: HEAD
+    #                 directories:
+    #                 - path: infrastructure/*/base
+    #                 values:
+    #                   service: '{{index .path.segments 1}}'
+    #                   overlay: '{{.path.basename}}'
+    #             - list:
+    #               elements:
+    #                 - service: '{{index .path.segments 1}}'
+    #       - matrix:
+    #           generators:
+    #             - git:
+    #                 repoURL: git@github.com:tallen12/private_k3s_configs.git
+    #                 revision: HEAD
+    #                 directories:
+    #                 - path: infrastructure/*/local
+    #                 values:
+    #                   service: '{{index .path.segments 1}}'
+    #                   overlay: '{{.path.basename}}'
+    #             - list:
+    #               elements:
+    #                 - service: '{{index .path.segments 1}}'
   template:
     metadata:
       name: '{{ .values.service }}'
