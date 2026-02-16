@@ -6,14 +6,14 @@ metadata:
 spec:
   goTemplate: true
   generators:
-  - list:
-      elements:
-      - service: argocd
-      - service: external-secrets
-      - service: argocd-secrets
-      - service: 1password
-      - service: cert-manager
-      - service: istio
+    - git:
+          repoURL: git@github.com:tallen12/gitops_k3s_infra.git
+          revision: HEAD
+          directories:
+          - path: infrastructure/*/base
+          values:
+            service: {{index .path.segments 1}}
+            overlay: {{.path.basename}}
   strategy:
     type: RollingSync
     rollingSync:
@@ -41,6 +41,7 @@ spec:
       name: '{{ .service }}'
       labels:
         infra-service: '{{ .service }}'
+        overlay: '{{.overlay}}'
     spec:
       project: default
       ignoreDifferences:
@@ -55,9 +56,9 @@ spec:
             - /metadata/resourceVersion
             - /metadata/uid
       source:
-        repoURL: '{{ .url | default  "git@github.com:tallen12/gitops_k3s_infra.git"}}'
+        repoURL: '{{ .repoURL | default  "git@github.com:tallen12/gitops_k3s_infra.git"}}'
         targetRevision: main
-        path: 'infrastructure/{{ .service }}/{{ .overlay | default "base"}}'
+        path: '{{.path.path}}'
       destination:
         name: in-cluster
       syncPolicy:
