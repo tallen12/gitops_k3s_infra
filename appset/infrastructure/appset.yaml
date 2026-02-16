@@ -18,6 +18,14 @@ spec:
               values:
                 service: '{{index .path.segments 1}}'
                 overlay: '{{.path.basename}}'
+          - git:
+              repoURL: git@github.com:tallen12/private_k3s_configs.git
+              revision: HEAD
+              directories:
+              - path: infrastructure/*/local
+              values:
+                service: '{{index .path.segments 1}}'
+                overlay: '{{.path.basename}}'
   template:
     metadata:
       name: '{{ .values.service }}'
