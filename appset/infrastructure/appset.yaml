@@ -32,7 +32,7 @@ spec:
                     repoURL: git@github.com:tallen12/private_k3s_configs.git
                     revision: main
                     directories:
-                    - path: infrastructure/*/base
+                    - path: infrastructure/*/private
                     values:
                       service: '{{index .path.segments 1}}'
                       overlay: '{{.path.basename}}'
