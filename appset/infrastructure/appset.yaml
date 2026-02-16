@@ -16,7 +16,7 @@ spec:
               generators:
                 - git:
                     repoURL: git@github.com:tallen12/gitops_k3s_infra.git
-                    revision: main
+                    revision: HEAD
                     directories:
                     - path: infrastructure/*/base
                     values:
@@ -30,7 +30,7 @@ spec:
               generators:
                 - git:
                     repoURL: git@github.com:tallen12/private_k3s_configs.git
-                    revision: main
+                    revision: HEAD
                     directories:
                     - path: infrastructure/*/private
                     values:
@@ -51,7 +51,7 @@ spec:
       project: default
       source:
         repoURL: '{{.values.url}}'
-        targetRevision: main
+        targetRevision: HEAD
         path: '{{.path.path}}'
       ignoreDifferences:
         # Ignore specific fields within the ExternalSecret resource
