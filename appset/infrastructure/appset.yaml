@@ -46,7 +46,7 @@ spec:
       labels:
         infra-service: '{{ .values.service }}'
         overlay: '{{.values.overlay}}'
-        gitrepo: '{{.values.url}}'
+        gitrepo: '{{.values.url | normalize}}'
     spec:
       project: default
       source:
