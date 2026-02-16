@@ -38,10 +38,10 @@ spec:
   #               - cert-manager
   template:
     metadata:
-      name: '{{ .service }}'
+      name: '{{ values.service }}'
       labels:
-        infra-service: '{{ .service }}'
-        overlay: '{{.overlay}}'
+        infra-service: '{{ values.service }}'
+        overlay: '{{values.overlay}}'
     spec:
       project: default
       ignoreDifferences:
