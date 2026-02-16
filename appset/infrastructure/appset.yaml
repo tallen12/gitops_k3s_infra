@@ -4,33 +4,34 @@ metadata:
   name: infrastructure
   namespace: argocd
 spec:
-  goTemplate: True
+  goTemplate: False
+  goTemplateOptions: ["missingkey=error"]
   generators:
     - merge:
         mergeKeys:
-          - values.service
+          - .values.service
         generators:
           - git:
               repoURL: git@github.com:tallen12/gitops_k3s_infra.git
               revision: HEAD
               directories:
-              - path: infrastructure/*/base
+              - path: infrastructure/*
               values:
-                service: '{{index .path.segments 1}}'
-                overlay: '{{.path.basename}}'
+                service: '{{.path.basename}}'
+                overlay: 'base'
           - git:
               repoURL: git@github.com:tallen12/private_k3s_configs.git
               revision: HEAD
               directories:
-              - path: infrastructure/*/local
+              - path: infrastructure/*
               values:
-                service: '{{index .path.segments 1}}'
-                overlay: '{{.path.basename}}'
+                service: '{{.path.basename}}'
+                overlay: 'local'
   template:
     metadata:
-      name: '{{ .values.service }}'
+      name: '{{.values.service}}'
       labels:
-        infra-service: '{{ .values.service }}'
+        infra-service: '{{.values.service}}'
         overlay: '{{.values.overlay}}'
     spec:
       project: default
@@ -48,7 +49,7 @@ spec:
       source:
         repoURL: '{{ .repoURL }}'
         targetRevision: main
-        path: '{{.path.path}}'
+        path: '{{.path.path}}/{{.values.overlay}}'
       destination:
         name: in-cluster
       syncPolicy:
