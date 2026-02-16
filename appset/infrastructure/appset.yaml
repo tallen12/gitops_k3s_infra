@@ -21,7 +21,6 @@ spec:
           - list:
               elements:
                 - service: '{{index .path.segments 1}}'
-                  repoURL: '{{.values.repoURL}}'
 
     # - merge:
     #     mergeKeys:
