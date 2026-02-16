@@ -14,28 +14,28 @@ spec:
           values:
             service: '{{index .path.segments 1}}'
             overlay: '{{.path.basename}}'
-  strategy:
-    type: RollingSync
-    rollingSync:
-      steps:
-        - matchExpressions:
-            - key: infra-service
-              operator: In
-              values:
-                - argocd
-                - external-secrets
-        - matchExpressions:
-            - key: infra-service
-              operator: In
-              values:
-                - argocd-secrets
-                - 1password
-        - matchExpressions:
-            - key: infra-service
-              operator: In
-              values:
-                - istio
-                - cert-manager
+  # strategy:
+  #   type: RollingSync
+  #   rollingSync:
+  #     steps:
+  #       - matchExpressions:
+  #           - key: infra-service
+  #             operator: In
+  #             values:
+  #               - argocd
+  #               - external-secrets
+  #       - matchExpressions:
+  #           - key: infra-service
+  #             operator: In
+  #             values:
+  #               - argocd-secrets
+  #               - 1password
+  #       - matchExpressions:
+  #           - key: infra-service
+  #             operator: In
+  #             values:
+  #               - istio
+  #               - cert-manager
   template:
     metadata:
       name: '{{ .service }}'
