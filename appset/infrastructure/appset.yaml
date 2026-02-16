@@ -4,38 +4,20 @@ metadata:
   name: infrastructure
   namespace: argocd
 spec:
-  goTemplate: true
+  goTemplate: False
   generators:
-    - git:
-          repoURL: git@github.com:tallen12/gitops_k3s_infra.git
-          revision: HEAD
-          directories:
-          - path: infrastructure/*/base
-          values:
-            service: '{{index .path.segments 1}}'
-            overlay: '{{.path.basename}}'
-  # strategy:
-  #   type: RollingSync
-  #   rollingSync:
-  #     steps:
-  #       - matchExpressions:
-  #           - key: infra-service
-  #             operator: In
-  #             values:
-  #               - argocd
-  #               - external-secrets
-  #       - matchExpressions:
-  #           - key: infra-service
-  #             operator: In
-  #             values:
-  #               - argocd-secrets
-  #               - 1password
-  #       - matchExpressions:
-  #           - key: infra-service
-  #             operator: In
-  #             values:
-  #               - istio
-  #               - cert-manager
+    - merge:
+        mergeKeys:
+          - values.service
+        generators:
+          - git:
+              repoURL: git@github.com:tallen12/gitops_k3s_infra.git
+              revision: HEAD
+              directories:
+              - path: infrastructure/*/base
+              values:
+                service: '{{index .path.segments 1}}'
+                overlay: '{{.path.basename}}'
   template:
     metadata:
       name: '{{ .values.service }}'
@@ -56,7 +38,7 @@ spec:
             - /metadata/resourceVersion
             - /metadata/uid
       source:
-        repoURL: '{{ .repoURL | default  "git@github.com:tallen12/gitops_k3s_infra.git"}}'
+        repoURL: '{{ .repoURL }}'
         targetRevision: main
         path: '{{.path.path}}'
       destination:
