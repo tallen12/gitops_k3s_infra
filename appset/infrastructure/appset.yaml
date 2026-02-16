@@ -73,7 +73,7 @@ spec:
             - /metadata/resourceVersion
             - /metadata/uid
       source:
-        repoURL: '{{.repoURL}}'
+        repoURL: '{{.values.repoURL}}'
         targetRevision: main
         path: '{{.path.path}}'
       destination:
