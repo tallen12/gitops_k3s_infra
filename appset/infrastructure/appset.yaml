@@ -5,7 +5,6 @@ metadata:
   namespace: argocd
 spec:
   goTemplate: True
-  goTemplateOptions: ["missingkey=error"]
   generators:
     # Merge can't use goTemplate for nested mergeKeys (seems very limiting with how generators are defined)
     # Workaround use matrix generators to generate top level keys from goTemplates, will be nicer if they fix it
