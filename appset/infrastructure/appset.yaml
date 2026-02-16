@@ -23,7 +23,7 @@ spec:
                       service: '{{index .path.segments 1}}'
                       overlay: '{{.path.basename}}'
                       url: "git@github.com:tallen12/gitops_k3s_infra.git"
-                      basePath: '{{.path}}'
+                      basePath: '{{.path.path}}'
                 - list:
                     elements:
                       - service: '{{index .path.segments 1}}'
@@ -38,7 +38,7 @@ spec:
                       service: '{{index .path.segments 1}}'
                       overlay: '{{.path.basename}}'
                       overlayUrl: 'git@github.com:tallen12/private_k3s_configs.git'
-                      overlayPath: '{{.path}}'
+                      overlayPath: '{{.path.path}}'
                 - list:
                     elements:
                       - service: '{{index .path.segments 1}}'
