@@ -6,40 +6,24 @@ metadata:
 spec:
   goTemplate: True
   generators:
-    # Merge can't use goTemplate for nested mergeKeys (seems very limiting with how generators are defined)
-    # Workaround use matrix generators to generate top level keys from goTemplates, will be nicer if they fix it
-    - merge:
-        mergeKeys:
-          - service
-        generators:
-          - matrix:
-              generators:
-                - git:
-                    repoURL: git@github.com:tallen12/gitops_k3s_infra.git
-                    revision: HEAD
-                    directories:
-                    - path: infrastructure/*/base
-                    values:
-                      service: '{{index .path.segments 1}}'
-                      overlay: '{{.path.basename}}'
-                      url: "git@github.com:tallen12/gitops_k3s_infra.git"
-                - list:
-                    elements:
-                      - service: '{{index .path.segments 1}}'
-          - matrix:
-              generators:
-                - git:
-                    repoURL: git@github.com:tallen12/private_k3s_configs.git
-                    revision: HEAD
-                    directories:
-                    - path: infrastructure/*/private
-                    values:
-                      service: '{{index .path.segments 1}}'
-                      overlay: '{{.path.basename}}'
-                      url: 'git@github.com:tallen12/private_k3s_configs.git'
-                - list:
-                    elements:
-                      - service: '{{index .path.segments 1}}'
+    - git:
+        repoURL: git@github.com:tallen12/gitops_k3s_infra.git
+        revision: HEAD
+        directories:
+        - path: infrastructure/*/base
+        values:
+          service: '{{index .path.segments 1}}'
+          overlay: '{{.path.basename}}'
+          url: "git@github.com:tallen12/gitops_k3s_infra.git"
+    - git:
+        repoURL: git@github.com:tallen12/private_k3s_configs.git
+        revision: HEAD
+        directories:
+        - path: infrastructure/*/private
+        values:
+          service: '{{index .path.segments 1}}'
+          overlay: '{{.path.basename}}'
+          url: 'git@github.com:tallen12/private_k3s_configs.git'
   template:
     metadata:
       name: '{{ .values.service }}'
