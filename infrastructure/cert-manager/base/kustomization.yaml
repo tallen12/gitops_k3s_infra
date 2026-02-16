@@ -15,4 +15,5 @@ helmCharts:
         - --dns01-recursive-nameservers=8.8.8.8:53\,1.1.1.1:53
 
 resources:
+  - namespace.yaml
   - secrets/cloudflare.yaml
