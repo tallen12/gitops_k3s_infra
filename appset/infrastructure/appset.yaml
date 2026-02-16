@@ -12,8 +12,8 @@ spec:
           directories:
           - path: infrastructure/*/base
           values:
-            service: {{index .path.segments 1}}
-            overlay: {{.path.basename}}
+            service: '{{index .path.segments 1}}'
+            overlay: '{{.path.basename}}'
   strategy:
     type: RollingSync
     rollingSync:
