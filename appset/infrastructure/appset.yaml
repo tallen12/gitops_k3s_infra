@@ -30,14 +30,14 @@ spec:
           - matrix:
               generators:
                 - git:
-                    repoURL: git@github.com:tallen12/private_k3s_configs.git
+                    repoURL: git@github.com:tallen12/gitops_k3s_infra.git
                     revision: HEAD
                     directories:
                     - path: infrastructure/*/local
                     values:
                       service: '{{index .path.segments 1}}'
                       overlay: '{{.path.basename}}'
-                      url: "git@github.com:tallen12/private_k3s_configs.git"
+                      url: "git@github.com:tallen12/gitops_k3s_infra.git"
                 - list:
                     elements:
                       - service: '{{index .path.segments 1}}'
