@@ -15,7 +15,7 @@ spec:
         values:
           service: '{{index .path.segments 1}}'
           overlay: '{{.path.basename}}'
-          repoUrl: git@github.com:tallen12/gitops_k3s_infra.git
+          url: "git@github.com:tallen12/gitops_k3s_infra.git"
     # - matrix:
     #     generators:
     #       - list:
@@ -73,7 +73,7 @@ spec:
             - /metadata/resourceVersion
             - /metadata/uid
       source:
-        repoURL: '{{.values.repoURL}}'
+        repoURL: '{{.values.url}}'
         targetRevision: main
         path: '{{.path.path}}'
       destination:
