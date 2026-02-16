@@ -6,12 +6,14 @@ namespace: istio-system
 helmCharts:
  - repo: https://istio-release.storage.googleapis.com/charts
    name: base
+   releaseName: cluster-istio-base
    version: 1.28.3
    valuesInline:
      profile: ambient
 
  - repo: https://istio-release.storage.googleapis.com/charts
    name: cni
+   releaseName: cluster-cni
    version: 1.28.3
    valuesInline:
      profile: ambient
@@ -21,12 +23,14 @@ helmCharts:
 
  - repo: https://istio-release.storage.googleapis.com/charts
    name: istiod
+   releaseName: cluster-istiod
    version: 1.28.3
    valuesInline:
      profile: ambient
 
  - repo: https://istio-release.storage.googleapis.com/charts
    name: ztunnel
+   releaseName: cluster-ztunnel
    version: 1.28.3
    valuesInline:
      profile: ambient
@@ -37,3 +41,24 @@ resources:
 - namespace.yaml
 - github.com/kubernetes-sigs/gateway-api/config/crd?ref=v1.4.1
 
+
+patches:
+  - path: argocd_patch.yaml
+  - patch: |-
+      apiVersion: apps/v1
+      kind: DaemonSet
+      metadata:
+        name: ztunnel
+      spec:
+        template:
+          spec:
+            containers:
+              - name: istio-proxy
+                env:
+                  - name: ZTUNNEL_CPU_LIMIT
+                    valueFrom:
+                      resourceFieldRef:
+                        divisor: '0'
+    target:
+      kind: DaemonSet
+      name: ztunnel
