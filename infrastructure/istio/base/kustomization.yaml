@@ -39,6 +39,7 @@ helmCharts:
 
 resources:
 - namespace.yaml
+- https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.4.1/standard-install.yaml
 - github.com/kubernetes-sigs/gateway-api/config/crd?ref=v1.4.1
 
 
