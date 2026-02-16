@@ -9,7 +9,7 @@ spec:
   generators:
     - merge:
         mergeKeys:
-          - .values.service
+          - values.service
         generators:
           - git:
               repoURL: git@github.com:tallen12/gitops_k3s_infra.git
