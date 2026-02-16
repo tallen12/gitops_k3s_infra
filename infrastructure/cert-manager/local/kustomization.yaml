@@ -6,4 +6,4 @@ bases:
   - ../base
 
 resources:
-  - git@github.com:tallen12/private_k3s_configs.git
+  - git@github.com:tallen12/private_k3s_configs.git/infrastructure/cert-manager/local
