@@ -14,13 +14,10 @@ patches:
     target:
       kind: ConfigMap
       name: argocd-cm
-  # - path: config_map_patch.yaml
-  #   target:
-  #     kind: ConfigMap
-  #     name: argocd-cm
-  # - patch: |-
-  #     - op: remove
-  #       path: /data/resource.customizations.health.external-secrets.io_ExternalSecret
-  #   target:
-  #     kind: ConfigMap
-  #     name: argocd-cm
+  - patch: |-
+      - op: replace
+        path: /data/server.insecure
+        value: "true"
+    target:
+      kind: ConfigMap
+      name: argocd-cmd-params-cm
