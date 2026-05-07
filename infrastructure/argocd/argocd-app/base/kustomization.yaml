@@ -4,6 +4,7 @@ kind: Kustomization
 namespace: argocd
 resources:
 - namespace.yaml
+- secrets/github_ssh.yaml
 - default_project.yaml
 - https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 

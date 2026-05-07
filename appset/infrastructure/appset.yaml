@@ -10,19 +10,21 @@ spec:
         repoURL: git@github.com:tallen12/gitops_k3s_infra.git
         revision: HEAD
         directories:
-        - path: infrastructure/*/base
+        - path: infrastructure/*/*/base
         values:
           service: '{{index .path.segments 1}}'
           overlay: '{{.path.basename}}'
+          namespace: '{{.path.segments 2}}'
           url: "git@github.com:tallen12/gitops_k3s_infra.git"
     - git:
         repoURL: git@github.com:tallen12/private_k3s_configs.git
         revision: HEAD
         directories:
-        - path: infrastructure/*/private
+        - path: infrastructure/*/*/private
         values:
           service: '{{index .path.segments 1}}'
           overlay: '{{.path.basename}}'
+          namespace: '{{.path.segments 2}}'
           url: 'git@github.com:tallen12/private_k3s_configs.git'
   template:
     metadata:
@@ -50,6 +52,7 @@ spec:
             - /metadata/uid
       destination:
         name: in-cluster
+        namespace: '{{ .values.namespace }}'
       syncPolicy:
         automated:
           prune: true
