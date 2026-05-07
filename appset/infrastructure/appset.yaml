@@ -14,7 +14,7 @@ spec:
         values:
           service: '{{index .path.segments 1}}'
           overlay: '{{.path.basename}}'
-          namespace: '{{.path.segments 2}}'
+          namespace: '{{index .path.segments 2}}'
           url: "git@github.com:tallen12/gitops_k3s_infra.git"
     - git:
         repoURL: git@github.com:tallen12/private_k3s_configs.git
@@ -24,7 +24,7 @@ spec:
         values:
           service: '{{index .path.segments 1}}'
           overlay: '{{.path.basename}}'
-          namespace: '{{.path.segments 2}}'
+          namespace: '{{index .path.segments 2}}'
           url: 'git@github.com:tallen12/private_k3s_configs.git'
   template:
     metadata:
