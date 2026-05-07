@@ -6,30 +6,26 @@ metadata:
 spec:
   goTemplate: True
   generators:
-    - merge:
-        mergeKeys:
-          - values.service
-        generators:
-        - git:
-            repoURL: git@github.com:tallen12/gitops_k3s_infra.git
-            revision: HEAD
-            directories:
-            - path: infrastructure/*/*/base
-            values:
-              namespace: '{{index .path.segments 1}}'
-              service: '{{index .path.segments 2}}'
-              overlay: '{{.path.basename}}'
-              url: "git@github.com:tallen12/gitops_k3s_infra.git"
-        - git:
-            repoURL: git@github.com:tallen12/private_k3s_configs.git
-            revision: HEAD
-            directories:
-            - path: infrastructure/*/*/private
-            values:
-              namespace: '{{index .path.segments 1}}'
-              service: '{{index .path.segments 2}}'
-              overlay: '{{.path.basename}}'
-              url: 'git@github.com:tallen12/private_k3s_configs.git'
+  - git:
+      repoURL: git@github.com:tallen12/gitops_k3s_infra.git
+      revision: HEAD
+      directories:
+      - path: infrastructure/*/*/base
+      values:
+        namespace: '{{index .path.segments 1}}'
+        service: '{{index .path.segments 2}}'
+        overlay: '{{.path.basename}}'
+        url: "git@github.com:tallen12/gitops_k3s_infra.git"
+  - git:
+      repoURL: git@github.com:tallen12/private_k3s_configs.git
+      revision: HEAD
+      directories:
+      - path: infrastructure/*/*/private
+      values:
+        namespace: '{{index .path.segments 1}}'
+        service: '{{index .path.segments 2}}'
+        overlay: '{{.path.basename}}'
+        url: 'git@github.com:tallen12/private_k3s_configs.git'
   template:
     metadata:
       name: '{{ .values.service }}'
