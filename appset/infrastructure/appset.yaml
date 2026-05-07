@@ -39,6 +39,8 @@ spec:
         repoURL: '{{.values.url}}'
         targetRevision: HEAD
         path: '{{.path.path}}'
+        kustomize:
+          namespace: '{{.values.namespace}}'
       ignoreDifferences:
         # Ignore specific fields within the ExternalSecret resource
         - kind: ExternalSecret
