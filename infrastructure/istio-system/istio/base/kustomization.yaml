@@ -4,43 +4,59 @@ kind: Kustomization
 namespace: istio-system
 
 helmCharts:
- - repo: https://istio-release.storage.googleapis.com/charts
-   name: base
-   releaseName: cluster-istio-base
-   version: 1.28.3
-   valuesInline:
-     profile: ambient
+  - repo: https://istio-release.storage.googleapis.com/charts
+    name: base
+    releaseName: cluster-istio-base
+    version: 1.28.3
+    valuesInline:
+      profile: ambient
 
- - repo: https://istio-release.storage.googleapis.com/charts
-   name: cni
-   releaseName: cluster-cni
-   version: 1.28.3
-   valuesInline:
-     profile: ambient
-     # https://istio.io/latest/docs/ambient/install/platform-prerequisites/#k3s
-     global:
+  - repo: https://istio-release.storage.googleapis.com/charts
+    name: cni
+    releaseName: cluster-cni
+    version: 1.28.3
+    valuesInline:
+      profile: ambient
+      # https://istio.io/latest/docs/ambient/install/platform-prerequisites/#k3s
+      global:
         platform: k3s
 
- - repo: https://istio-release.storage.googleapis.com/charts
-   name: istiod
-   releaseName: cluster-istiod
-   version: 1.28.3
-   valuesInline:
-     profile: ambient
+  - repo: https://istio-release.storage.googleapis.com/charts
+    name: istiod
+    releaseName: cluster-istiod
+    version: 1.28.3
+    valuesInline:
+      profile: ambient
+      meshConfig:
+        extensionProviders:
+          - name: oauth2-proxy
+            envoyExtAuthzHttp:
+              service: oauth2-proxy.auth.svc.cluster.local
+              port: "4180"
+              includeRequestHeadersInCheck:
+                - authorization
+                - cookie
+              headersToUpstreamOnAllow:
+                - x-auth-request-user
+                - x-auth-request-email
+                - x-auth-request-access-token
+              headersToDownstreamOnAllow:
+                - set-cookie
+              headersToDownstreamOnDeny:
+                - content-type
+                - set-cookie
+                - location
 
- - repo: https://istio-release.storage.googleapis.com/charts
-   name: ztunnel
-   releaseName: cluster-ztunnel
-   version: 1.28.3
-   valuesInline:
-     profile: ambient
-
-
+  - repo: https://istio-release.storage.googleapis.com/charts
+    name: ztunnel
+    releaseName: cluster-ztunnel
+    version: 1.28.3
+    valuesInline:
+      profile: ambient
 
 resources:
-- namespace.yaml
-- github.com/kubernetes-sigs/gateway-api/config/crd?ref=v1.4.1
-
+  - namespace.yaml
+  - github.com/kubernetes-sigs/gateway-api/config/crd?ref=v1.4.1
 
 patches:
   - path: argocd_patch.yaml
