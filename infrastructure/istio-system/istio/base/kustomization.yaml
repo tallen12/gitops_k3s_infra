@@ -31,7 +31,7 @@ helmCharts:
         extensionProviders:
           - name: oauth2-proxy
             envoyExtAuthzHttp:
-              service: oauth2-proxy.auth.svc.cluster.local
+              service: oauth2-proxy.test-app.svc.cluster.local
               port: "4180"
               includeRequestHeadersInCheck:
                 - authorization
