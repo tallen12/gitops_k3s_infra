@@ -34,7 +34,7 @@ helmCharts:
               service: authentik-server.test-app.svc.cluster.local
               port: "9000"
               # Path Authentik uses for forward auth decisions
-              pathPrefix: /outpost.goauthentik.io/auth/nginx
+              pathPrefix: /outpost.goauthentik.io/auth/envoy
               # Headers forwarded to Authentik for auth checking
               includeRequestHeadersInCheck:
                 - authorization
