@@ -29,7 +29,7 @@ helmCharts:
       profile: ambient
       meshConfig:
         extensionProviders:
-          - name: oauth2-proxy
+          - name: authentik
             envoyExtAuthzHttp:
               service: authentik-server.test-app.svc.cluster.local
               port: "9000"
