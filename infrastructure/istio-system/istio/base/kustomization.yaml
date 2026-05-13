@@ -7,14 +7,14 @@ helmCharts:
   - repo: https://istio-release.storage.googleapis.com/charts
     name: base
     releaseName: cluster-istio-base
-    version: 1.29.2
+    version: 1.30.0-rc.0
     valuesInline:
       profile: ambient
 
   - repo: https://istio-release.storage.googleapis.com/charts
     name: cni
     releaseName: cluster-cni
-    version: 1.29.2
+    version: 1.30.0-rc.0
     valuesInline:
       profile: ambient
       # https://istio.io/latest/docs/ambient/install/platform-prerequisites/#k3s
@@ -24,7 +24,7 @@ helmCharts:
   - repo: https://istio-release.storage.googleapis.com/charts
     name: istiod
     releaseName: cluster-istiod
-    version: 1.29.2
+    version: 1.30.0-rc.0
     valuesInline:
       pilot:
         env:
@@ -110,7 +110,7 @@ helmCharts:
   - repo: https://istio-release.storage.googleapis.com/charts
     name: ztunnel
     releaseName: cluster-ztunnel
-    version: 1.29.2
+    version: 1.30.0-rc.0
     valuesInline:
       profile: ambient
 
