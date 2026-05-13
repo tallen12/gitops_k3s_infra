@@ -73,7 +73,35 @@ helmCharts:
                 - content-type
                 - location
                 - set-cookie
-
+          - name: authentik-test-outpost
+            envoyExtAuthzHttp:
+              service: authentik-outpost-test2.test-app.svc.cluster.local
+              port: "9000"
+              # Path Authentik uses for forward auth decisions
+              pathPrefix: /outpost.goauthentik.io/auth/envoy
+              # Headers forwarded to Authentik for auth checking
+              includeRequestHeadersInCheck:
+                - authorization
+                - cookie
+                - x-original-url
+                - x-forwarded-for
+                - x-forwarded-host
+                - x-forwarded-proto
+              # Headers Authentik injects on allow; forwarded upstream
+              headersToUpstreamOnAllow:
+                - x-authentik-username
+                - x-authentik-groups
+                - x-authentik-email
+                - x-authentik-name
+                - x-authentik-uid
+              # Allow responses: pass session cookie back to browser
+              headersToDownstreamOnAllow:
+                - set-cookie
+              # Deny responses: let Authentik redirect the browser to the login page
+              headersToDownstreamOnDeny:
+                - content-type
+                - location
+                - set-cookie
   - repo: https://istio-release.storage.googleapis.com/charts
     name: ztunnel
     releaseName: cluster-ztunnel
