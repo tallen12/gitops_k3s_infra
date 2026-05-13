@@ -28,7 +28,7 @@ helmCharts:
     valuesInline:
       pilot:
         env:
-          PILOT_ENABLE_MULTIPLE_CUSTOM_AUTHZ_PROVIDERS: "true"
+          PILOT_ENABLE_MULTIPLE_CUSTOM_AUTHZ_PROVIDERS: true
       profile: ambient
       gatewayTopology:
           numTrustedHops: 2
