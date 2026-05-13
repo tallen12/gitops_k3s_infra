@@ -58,6 +58,7 @@ helmCharts:
                 - x-forwarded-for
                 - x-forwarded-host
                 - x-forwarded-proto
+                - host
               # Headers Authentik injects on allow; forwarded upstream
               headersToUpstreamOnAllow:
                 - x-authentik-username
@@ -87,6 +88,7 @@ helmCharts:
                 - x-forwarded-for
                 - x-forwarded-host
                 - x-forwarded-proto
+                - host
               # Headers Authentik injects on allow; forwarded upstream
               headersToUpstreamOnAllow:
                 - x-authentik-username
