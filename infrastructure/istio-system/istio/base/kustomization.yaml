@@ -28,10 +28,11 @@ helmCharts:
     valuesInline:
       pilot:
         env:
+          # This enables multiple auth policy providers per gateway, but external outpost seems to be broken for authentik and envoy
           PILOT_ENABLE_MULTIPLE_CUSTOM_AUTHZ_PROVIDERS: true
       profile: ambient
       gatewayTopology:
-          numTrustedHops: 2
+        numTrustedHops: 2
       meshConfig:
         extensionProviders:
           - name: custom-json-provider
@@ -47,13 +48,12 @@ helmCharts:
                   host: "%REQ(:AUTHORITY)%"
                   upstream: "%UPSTREAM_HOST%"
                   response_code: "%RESPONSE_CODE%"
+          # Added this for testing remove it later
           - name: authentik
             envoyExtAuthzHttp:
               service: authentik-server.test-app.svc.cluster.local
               port: "9000"
-              # Path Authentik uses for forward auth decisions
               pathPrefix: /outpost.goauthentik.io/auth/envoy
-              # Headers forwarded to Authentik for auth checking
               includeRequestHeadersInCheck:
                 - authorization
                 - cookie
@@ -62,28 +62,25 @@ helmCharts:
                 - x-forwarded-host
                 - x-forwarded-proto
                 - host
-              # Headers Authentik injects on allow; forwarded upstream
               headersToUpstreamOnAllow:
                 - x-authentik-username
                 - x-authentik-groups
                 - x-authentik-email
                 - x-authentik-name
                 - x-authentik-uid
-              # Allow responses: pass session cookie back to browser
               headersToDownstreamOnAllow:
                 - set-cookie
-              # Deny responses: let Authentik redirect the browser to the login page
               headersToDownstreamOnDeny:
                 - content-type
                 - location
                 - set-cookie
-          - name: authentik-test-outpost
+          # Actual cluster authentik provider
+          - name: authentik-forward-auth-cluster
             envoyExtAuthzHttp:
-              service: authentik-outpost-test2.test-app.svc.cluster.local
+              service: authentik-server.authentik.svc.cluster.local
               port: "9000"
               # Path Authentik uses for forward auth decisions
               pathPrefix: /outpost.goauthentik.io/auth/envoy
-              # Headers forwarded to Authentik for auth checking
               includeRequestHeadersInCheck:
                 - authorization
                 - cookie
@@ -92,21 +89,19 @@ helmCharts:
                 - x-forwarded-host
                 - x-forwarded-proto
                 - host
-              # Headers Authentik injects on allow; forwarded upstream
               headersToUpstreamOnAllow:
                 - x-authentik-username
                 - x-authentik-groups
                 - x-authentik-email
                 - x-authentik-name
                 - x-authentik-uid
-              # Allow responses: pass session cookie back to browser
               headersToDownstreamOnAllow:
                 - set-cookie
-              # Deny responses: let Authentik redirect the browser to the login page
               headersToDownstreamOnDeny:
                 - content-type
                 - location
                 - set-cookie
+
   - repo: https://istio-release.storage.googleapis.com/charts
     name: ztunnel
     releaseName: cluster-ztunnel
