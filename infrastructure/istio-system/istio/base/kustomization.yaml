@@ -77,7 +77,7 @@ helmCharts:
           # Actual cluster authentik provider
           - name: authentik-forward-auth-cluster
             envoyExtAuthzHttp:
-              service: authentik-server.authentik.svc.cluster.local
+              service: authentik-outpost-test2.test-app.svc.cluster.local
               port: "9000"
               # Path Authentik uses for forward auth decisions
               pathPrefix: /outpost.goauthentik.io/auth/envoy
