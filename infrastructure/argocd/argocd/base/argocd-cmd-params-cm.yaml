@@ -2,6 +2,9 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: argocd-cmd-params-cm
+  namespace: argocd
 data:
   server.insecure: "true"
+  reposerver.disable.tls: "true"             # repo-server stops TLS on 8081
+  controller.metrics.server.insecure: "true" # app-controller metrics insecure
   controller.diff.server.side: "true"
