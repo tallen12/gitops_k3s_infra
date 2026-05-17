@@ -4,8 +4,21 @@ metadata:
   name: argocd-cmd-params-cm
   namespace: argocd
 data:
-  server.insecure: "true"
-  reposerver.disable.tls: "true"
-  server.repo.server.plaintext: "true"
-  controller.repo.server.plaintext: "true"
+  # --- argocd-server ---
+  server.insecure: "true" # serve HTTP, not HTTPS
+  server.repo.server.plaintext: "true" # talk to repo-server over plaintext
+  server.dex.server.plaintext: "true" # talk to dex over plaintext
+  server.redis.insecure.skip.verify: "true" # skip redis TLS verify if needed
+
+  # --- argocd-repo-server ---
+  reposerver.disable.tls: "true" # repo-server listens on plaintext
+
+  # --- argocd-application-controller ---
+  controller.repo.server.plaintext: "true" # controller → repo-server plaintext
   controller.diff.server.side: "true"
+
+  # --- argocd-applicationset-controller ---
+  applicationsetcontroller.repo.server.plaintext: "true"
+
+  # --- argocd-notifications (if installed) ---
+  notificationscontroller.repo.server.plaintext: "true"
