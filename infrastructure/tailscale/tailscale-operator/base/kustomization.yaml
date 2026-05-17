@@ -3,9 +3,18 @@ kind: Kustomization
 
 namespace: tailscale
 resources:
-  - namespace.yaml
   - external-operator-oauth-secret.yaml
   - https://github.com/tailscale/tailscale/raw/main/cmd/k8s-operator/deploy/manifests/operator.yaml
 
 patches:
   - path: remove-operator-oauth-secret.yaml
+  - target:
+      kind: Namespace
+      name: tailscale
+    patch: |-
+      apiVersion: v1
+      kind: Namespace
+      metadata:
+        name: tailscale
+        labels:
+          istio.io/dataplane-mode: ambient
