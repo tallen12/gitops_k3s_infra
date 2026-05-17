@@ -5,6 +5,7 @@ metadata:
   namespace: argocd
 data:
   server.insecure: "true"
-  reposerver.disable.tls: "true"             # repo-server stops TLS on 8081
-  controller.metrics.server.insecure: "true" # app-controller metrics insecure
+  reposerver.disable.tls: "true"
+  server.repo.server.plaintext: "true"
+  controller.repo.server.plaintext: "true"
   controller.diff.server.side: "true"
