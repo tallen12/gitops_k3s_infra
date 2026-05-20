@@ -59,7 +59,7 @@ spec:
             - name: LLDAP_DATABASE_URL
               valueFrom:
                 secretKeyRef:
-                  name: lldap-postgres-app # CNPG creates this automatically
+                  name: postgres-auth-app # CNPG creates this automatically
                   key: uri
           livenessProbe:
             httpGet:
