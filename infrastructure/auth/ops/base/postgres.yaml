@@ -20,7 +20,7 @@ spec:
       memory: "256Mi"
     limits:
       cpu: "1000m"
-      memory: "1Gb"
+      memory: "1Gi"
 
     # Require 1Gi of space
   storage:
