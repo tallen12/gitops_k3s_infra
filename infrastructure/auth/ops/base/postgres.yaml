@@ -6,15 +6,15 @@ spec:
   instances: 2
   primaryUpdateStrategy: unsupervised
 
-resources:
-  requests:
-    cpu: "100m"
-    memory: "256Mi"
-  limits:
-    cpu: "500m"
-    memory: "512Mi"
-    
-  # Require 1Gi of space
-  storage:
-    size: 1Gi
-    storageClass: postgres-longhorn-storage-class
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "256Mi"
+    limits:
+      cpu: "500m"
+      memory: "512Mi"
+
+    # Require 1Gi of space
+    storage:
+      size: 1Gi
+      storageClass: postgres-longhorn-storage-class
