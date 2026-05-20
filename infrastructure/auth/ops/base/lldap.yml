@@ -1,30 +1,4 @@
 ---
-apiVersion: external-secrets.io/v1
-kind: ExternalSecret
-metadata:
-  name: lldap-secret
-  namespace: lldap
-spec:
-  secretStoreRef:
-    kind: ClusterSecretStore
-    name: 1password-k3s
-  target:
-    creationPolicy: Owner
-    deletionPolicy: Retain
-  data:
-    - secretKey: LLDAP_JWT_SECRET
-      remoteRef:
-        key: "LLDAP"
-        property: jwt_secret
-    - secretKey: LLDAP_KEY_SEED
-      remoteRef:
-        key: "LLDAP"
-        property: key_seed
-    - secretKey: LLDAP_LDAP_USER_PASS
-      remoteRef:
-        key: "LLDAP"
-        property: admin_password 
----
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -32,7 +6,7 @@ metadata:
   namespace: lldap
 data:
   TZ: "UTC"
-  LLDAP_LDAP_BASE_DN: "dc=auth,dc=tylera,dc=dev"   # change to your domain
+  LLDAP_LDAP_BASE_DN: "dc=auth,dc=tylera,dc=dev" # change to your domain
   LLDAP_LDAP_USER_DN: "admin"
 ---
 apiVersion: apps/v1
@@ -43,7 +17,10 @@ metadata:
   labels:
     app: lldap
 spec:
-  replicas: 1  # increase to 2+ only if using external postgres (not sqlite)
+  replicas: 1 # increase to 2+ only if using external postgres (not sqlite)
+  selector:
+    matchLabels:
+      app: lldap
   template:
     metadata:
       labels:
@@ -82,7 +59,7 @@ spec:
             - name: LLDAP_DATABASE_URL
               valueFrom:
                 secretKeyRef:
-                  name: lldap-postgres-app  # CNPG creates this automatically
+                  name: lldap-postgres-app # CNPG creates this automatically
                   key: uri
           livenessProbe:
             httpGet:
@@ -103,7 +80,32 @@ spec:
             limits:
               cpu: 200m
               memory: 128Mi
- 
+---
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: lldap-secret
+  namespace: lldap
+spec:
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: 1password-k3s
+  target:
+    creationPolicy: Owner
+    deletionPolicy: Retain
+  data:
+    - secretKey: LLDAP_JWT_SECRET
+      remoteRef:
+        key: "LLDAP"
+        property: jwt_secret
+    - secretKey: LLDAP_KEY_SEED
+      remoteRef:
+        key: "LLDAP"
+        property: key_seed
+    - secretKey: LLDAP_LDAP_USER_PASS
+      remoteRef:
+        key: "LLDAP"
+        property: admin_password
 ---
 apiVersion: v1
 kind: Service
