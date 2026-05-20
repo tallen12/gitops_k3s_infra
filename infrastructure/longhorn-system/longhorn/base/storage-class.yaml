@@ -3,7 +3,10 @@ kind: StorageClass
 metadata:
   name: longhorn-storage-class
   namespace: longhorn-system
+  annotations:
+    argocd.argoproj.io/sync-options: ServerSideApply=true,Replace=true
 provisioner: driver.longhorn.io
+reclaimPolicy: Delete
 parameters:
   numberOfReplicas: "2"
   staleReplicaTimeout: "2880"
@@ -13,7 +16,11 @@ kind: StorageClass
 metadata:
   name: postgres-longhorn-storage-class
   namespace: longhorn-system
+  annotations:
+    argocd.argoproj.io/sync-options: ServerSideApply=true,Replace=true
 provisioner: driver.longhorn.io
+volumeBindingMode: WaitForFirstConsumer
+reclaimPolicy: Delete
 parameters:
   numberOfReplicas: "1"
   dataLocality: "strict-local"
