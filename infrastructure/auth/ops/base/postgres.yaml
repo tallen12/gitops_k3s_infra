@@ -5,7 +5,15 @@ metadata:
 spec:
   instances: 2
   primaryUpdateStrategy: unsupervised
-
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: database-storage
+            operator: In
+            values:
+            - "true"
   resources:
     requests:
       cpu: "100m"

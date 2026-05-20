@@ -2,7 +2,6 @@ apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
   name: longhorn-storage-class
-  namespace: longhorn-system
   annotations:
     argocd.argoproj.io/sync-options: ServerSideApply=true,Replace=true
 provisioner: driver.longhorn.io
@@ -15,7 +14,6 @@ apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
   name: postgres-longhorn-storage-class
-  namespace: longhorn-system
   annotations:
     argocd.argoproj.io/sync-options: ServerSideApply=true,Replace=true
 provisioner: driver.longhorn.io
