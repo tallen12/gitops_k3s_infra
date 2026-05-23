@@ -1,0 +1,31 @@
+replicaCount: 2
+ 
+redisOperator: 
+  webhook: true
+ 
+certmanager:
+  enabled: true
+ 
+rbac:
+  enabled: true
+ 
+leaderElection:
+  enabled: true
+ 
+serviceAccount:
+  create: true
+  name: ""
+  annotations: {}
+ 
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  
+serviceMonitor:
+  enabled: false   # enable this when I get prometheus setup
+ 
+ 

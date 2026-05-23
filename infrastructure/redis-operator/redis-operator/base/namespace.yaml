@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: redis-operator
+  labels:
+    # Label required for Istio ambient mode to enroll pods in the mesh
+    istio.io/dataplane-mode: ambient
