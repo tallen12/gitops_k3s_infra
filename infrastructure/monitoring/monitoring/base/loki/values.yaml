@@ -1,14 +1,4 @@
-# values for grafana/loki
-# Chart: grafana-community/loki  (forked from grafana/loki at v6.55.0, March 2026)
-# Use the grafana-community repo — the grafana/loki repo is now GEL-only.
-#
-# Deployment mode: Monolithic (recommended for a self-hosted monitoring stack).
-# Storage: filesystem by default (dev). Override to S3/GCS/Azure in prod overlay.
-#
-# The gateway (nginx) is enabled so Grafana and Alloy always talk to a single
-# stable endpoint: http://loki-gateway.monitoring.svc.cluster.local:80
-
-deploymentMode: Monolithic
+deploymentMode: SingleBinary
 
 loki:
   auth_enabled: false
