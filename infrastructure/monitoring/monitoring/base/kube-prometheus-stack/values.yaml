@@ -79,7 +79,7 @@ alertmanager:
 kubeControllerManager:
   # Add all k3s Control-Plane IPs
   endpoints:
-    - k3s-node-tomori
+    - 192.168.210.101
   service:
     port: 10257
     targetPort: 10257
@@ -90,20 +90,17 @@ kubeControllerManager:
 kubeScheduler:
   # Add all k3s Control-Plane IPs
   endpoints:
-    - k3s-node-tomori
+    - 192.168.210.101
   service:
     port: 10259
     targetPort: 10259
   serviceMonitor:
     https: true
     insecureSkipVerify: true
+
 kubeEtcd:
-  # Add all k3s Control-Plane IPs
-  endpoints:
-    - k3s-node-tomori
-  service:
-    port: 2381
-    targetPort: 2381
+  enabled: false
+
 kubeProxy:
   service:
     port: 10249
