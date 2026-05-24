@@ -53,15 +53,15 @@ spec:
             - /metadata/resourceVersion
             - /metadata/uid
         # Need to ignore Endpoints for monitoring
-        - group: ""
-          kind: Endpoints
-          name: kube-prometheus-stack-kube-controller-manager
-        - group: ""
-          kind: Endpoints
-          name: kube-prometheus-stack-kube-scheduler
-        - group: ""
-          kind: Endpoints
-          name: kube-prometheus-stack-kube-proxy
+        # - group: ""
+        #   kind: Endpoints
+        #   name: kube-prometheus-stack-kube-controller-manager
+        # - group: ""
+        #   kind: Endpoints
+        #   name: kube-prometheus-stack-kube-scheduler
+        # - group: ""
+        #   kind: Endpoints
+        #   name: kube-prometheus-stack-kube-proxy
       destination:
         name: in-cluster
         namespace: '{{ .values.namespace }}'
