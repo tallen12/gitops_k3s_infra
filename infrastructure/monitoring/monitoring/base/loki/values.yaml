@@ -64,3 +64,10 @@ monitoring:
 
 test:
   enabled: false
+
+read:
+  replicas: 0
+write:
+  replicas: 0
+backend:
+  replicas: 0
