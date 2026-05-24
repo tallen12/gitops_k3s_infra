@@ -33,7 +33,7 @@ singleBinary:
 
   persistence:
     enabled: true
-    size: 10Gi
+    size: 15Gi
     storageClassName: "observability-longhorn-storage-class" # override in overlay
 
   resources:
