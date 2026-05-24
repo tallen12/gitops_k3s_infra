@@ -27,6 +27,7 @@ loki:
 
   compactor:
     retention_enabled: true
+    delete_request_store: filesystem  # match your storage type
 
 singleBinary:
   replicas: 1
