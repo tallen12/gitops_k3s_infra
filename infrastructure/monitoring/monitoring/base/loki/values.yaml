@@ -7,7 +7,7 @@ loki:
     replication_factor: 1
 
   storage:
-    type: filesystem   # override to s3/gcs/azure in prod
+    type: filesystem # override to s3/gcs/azure in prod
 
   schemaConfig:
     configs:
@@ -20,7 +20,7 @@ loki:
           period: 24h
 
   limits_config:
-    retention_period: 168h   # 31 days; requires compactor.retention_enabled
+    retention_period: 168h # 31 days; requires compactor.retention_enabled
     ingestion_rate_mb: 16
     ingestion_burst_size_mb: 32
     max_query_parallelism: 32
@@ -34,7 +34,7 @@ singleBinary:
   persistence:
     enabled: true
     size: 15Gi
-    storageClassName: "observability-longhorn-storage-class"  # override in overlay
+    storageClassName: "observability-longhorn-storage-class" # override in overlay
 
   resources:
     requests:
@@ -60,7 +60,7 @@ monitoring:
     grafanaAgent:
       installOperator: false
   lokiCanary:
-    enabled: false   # canary deployed via lokiCanary above, not monitoring subchart
+    enabled: false # canary deployed via lokiCanary above, not monitoring subchart
 
 test:
   enabled: false
@@ -70,4 +70,24 @@ read:
 write:
   replicas: 0
 backend:
+  replicas: 0
+ingester:
+  replicas: 0
+querier:
+  replicas: 0
+queryFrontend:
+  replicas: 0
+queryScheduler:
+  replicas: 0
+distributor:
+  replicas: 0
+compactor:
+  replicas: 0
+indexGateway:
+  replicas: 0
+bloomPlanner:
+  replicas: 0
+bloomBuilder:
+  replicas: 0
+bloomGateway:
   replicas: 0
