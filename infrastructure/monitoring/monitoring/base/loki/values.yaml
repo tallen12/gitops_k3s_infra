@@ -1,0 +1,76 @@
+# values for grafana/loki
+# Chart: grafana-community/loki  (forked from grafana/loki at v6.55.0, March 2026)
+# Use the grafana-community repo — the grafana/loki repo is now GEL-only.
+#
+# Deployment mode: Monolithic (recommended for a self-hosted monitoring stack).
+# Storage: filesystem by default (dev). Override to S3/GCS/Azure in prod overlay.
+#
+# The gateway (nginx) is enabled so Grafana and Alloy always talk to a single
+# stable endpoint: http://loki-gateway.monitoring.svc.cluster.local:80
+
+deploymentMode: Monolithic
+
+loki:
+  auth_enabled: false
+
+  commonConfig:
+    replication_factor: 1
+
+  storage:
+    type: filesystem   # override to s3/gcs/azure in prod
+
+  schemaConfig:
+    configs:
+      - from: "2026-01-01"
+        store: tsdb
+        object_store: filesystem
+        schema: v13
+        index:
+          prefix: loki_index_
+          period: 24h
+
+  limits_config:
+    retention_period: 168h   # 31 days; requires compactor.retention_enabled
+    ingestion_rate_mb: 16
+    ingestion_burst_size_mb: 32
+    max_query_parallelism: 32
+
+  compactor:
+    retention_enabled: true
+
+singleBinary:
+  replicas: 1
+
+  persistence:
+    enabled: true
+    size: 15Gi
+    storageClassName: "observability-longhorn-storage-class"  # override in overlay
+
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: 1000m
+      memory: 1Gi
+
+# Gateway: single stable ClusterIP that Grafana and Alloy point at.
+gateway:
+  enabled: false
+
+# Loki Canary sends synthetic log lines to verify the pipeline end-to-end.
+lokiCanary:
+  enabled: true
+
+# Disable the built-in self-monitoring/monitoring section — kube-prometheus-stack
+# already scrapes everything via its own ServiceMonitors.
+monitoring:
+  selfMonitoring:
+    enabled: false
+    grafanaAgent:
+      installOperator: false
+  lokiCanary:
+    enabled: false   # canary deployed via lokiCanary above, not monitoring subchart
+
+test:
+  enabled: false

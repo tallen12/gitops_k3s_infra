@@ -1,0 +1,79 @@
+# values for kube-prometheus-stack
+# Chart: prometheus-community/kube-prometheus-stack
+# Chart version: ~85.x  (app: Prometheus v3.x, Grafana 11.x)
+#
+# Key decisions:
+#   - Grafana datasources include Loki (auto-wired to the loki service)
+#   - Persistent storage enabled; override storageClassName in overlays
+#   - Alertmanager enabled but with a minimal config — override in prod
+
+grafana:
+  enabled: true
+  defaultDashboardsEnabled: true
+  defaultDashboardsTimezone: browser
+
+  # Wire Loki in as a datasource so it's available immediately after install.
+  # The URL points to the Loki gateway service deployed by the loki chart
+  # in the same namespace.
+  additionalDataSources:
+    - name: Loki
+      type: loki
+      url: http://loki.monitoring.svc.cluster.local:3100
+      access: proxy
+      isDefault: false
+      jsonData:
+        maxLines: 1000
+
+  persistence:
+    enabled: true
+    size: 10Gi
+    storageClassName: "longhorn-storage-class"  # override in overlay if needed
+
+  # Sidecar watches for ConfigMaps/Secrets labelled grafana_datasource/dashboard
+  sidecar:
+    datasources:
+      enabled: true
+      searchNamespace: monitoring
+    dashboards:
+      enabled: true
+      searchNamespace: monitoring
+
+prometheus:
+  prometheusSpec:
+    replicas: 1
+    retention: 7d        # down from 15d
+    retentionSize: "18GB"
+
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          accessModes: ["ReadWriteOnce"]
+          storageClassName: observability-longhorn-storage-class
+          resources:
+            requests:
+              storage: 20Gi
+    # Allow the operator to pick up ServiceMonitors from all namespaces
+    serviceMonitorSelectorNilUsesHelmValues: false
+    podMonitorSelectorNilUsesHelmValues: false
+    ruleSelectorNilUsesHelmValues: false
+
+    resources:
+      requests:
+        cpu: 500m
+        memory: 2Gi
+      limits:
+        cpu: 2000m
+        memory: 4Gi
+
+alertmanager:
+  alertmanagerSpec:
+    storage:
+      volumeClaimTemplate:
+        spec:
+          accessModes: ["ReadWriteOnce"]
+          storageClassName: observability-longhorn-storage-class
+          resources:
+            requests:
+              storage: 5Gi
+
+# Node exporter and kube-state-metrics are enabled by default — leave as-is.

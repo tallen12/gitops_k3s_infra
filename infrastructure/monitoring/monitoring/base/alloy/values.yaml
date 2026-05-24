@@ -1,0 +1,102 @@
+# values for grafana/alloy
+# Alloy replaces Promtail (EOL March 2026) as the log collection agent.
+#
+# Deployed as a DaemonSet so every node's pod logs are collected.
+# Uses loki.source.kubernetes (K8s API-based) rather than file tailing.
+#
+# Pipeline:
+#   discovery.kubernetes  →  relabel  →  loki.source.kubernetes  →  loki.write
+
+alloy:
+  # The Alloy config is inlined here and mounted as a ConfigMap.
+  # Use the River (Alloy) config language.
+  configMap:
+    create: true
+    content: |
+      // -------------------------------------------------------
+      // 1. Discover all pods in the cluster
+      // -------------------------------------------------------
+      discovery.kubernetes "pods" {
+        role = "pod"
+      }
+
+      // -------------------------------------------------------
+      // 2. Relabel: keep only running containers, add useful labels
+      // -------------------------------------------------------
+      discovery.relabel "pod_logs" {
+        targets = discovery.kubernetes.pods.targets
+
+        // Drop pods that have opted out of log collection
+        rule {
+          source_labels = ["__meta_kubernetes_pod_annotation_logging_exclude"]
+          regex         = "true"
+          action        = "drop"
+        }
+
+        // Expose pod metadata as Loki stream labels
+        rule {
+          source_labels = ["__meta_kubernetes_namespace"]
+          target_label  = "namespace"
+        }
+        rule {
+          source_labels = ["__meta_kubernetes_pod_name"]
+          target_label  = "pod"
+        }
+        rule {
+          source_labels = ["__meta_kubernetes_pod_container_name"]
+          target_label  = "container"
+        }
+        rule {
+          source_labels = ["__meta_kubernetes_pod_label_app_kubernetes_io_name"]
+          target_label  = "app"
+        }
+        rule {
+          source_labels = ["__meta_kubernetes_node_name"]
+          target_label  = "node"
+        }
+      }
+
+      // -------------------------------------------------------
+      // 3. Collect logs via the Kubernetes API (no file tailing)
+      // -------------------------------------------------------
+      loki.source.kubernetes "pod_logs" {
+        targets    = discovery.relabel.pod_logs.output
+        forward_to = [loki.write.gateway.receiver]
+      }
+
+      // -------------------------------------------------------
+      // 4. Ship to the Loki gateway
+      // -------------------------------------------------------
+      loki.write "gateway" {
+        endpoint {
+          url = "http://loki-gateway.monitoring.svc.cluster.local:80/loki/api/v1/push"
+        }
+      }
+
+controller:
+  # Run as a DaemonSet so every node is covered
+  type: daemonset
+
+  tolerations:
+    # Allow Alloy to run on control-plane nodes too
+    - key: node-role.kubernetes.io/control-plane
+      operator: Exists
+      effect: NoSchedule
+    - key: node-role.kubernetes.io/master
+      operator: Exists
+      effect: NoSchedule
+
+serviceAccount:
+  create: true
+  name: alloy
+
+rbac:
+  create: true
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 128Mi
+  limits:
+    cpu: 200m
+    memory: 256Mi

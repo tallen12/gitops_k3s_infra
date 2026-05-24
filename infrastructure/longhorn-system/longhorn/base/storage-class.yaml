@@ -22,3 +22,16 @@ reclaimPolicy: Delete
 parameters:
   numberOfReplicas: "1"
   dataLocality: "strict-local"
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: observability-longhorn-storage-class
+provisioner: driver.longhorn.io
+parameters:
+  numberOfReplicas: "1"
+  dataLocality: "disabled"
+  staleReplicaTimeout: "2880"
+reclaimPolicy: Retain
+volumeBindingMode: Immediate
+---

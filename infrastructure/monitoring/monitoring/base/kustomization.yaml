@@ -1,0 +1,9 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# Shared namespace applied before any Helm chart renders
+resources:
+  - namespace.yaml
+  - kube-prometheus-stack/
+  - loki/
+  - alloy/
