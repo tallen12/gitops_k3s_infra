@@ -27,7 +27,7 @@ grafana:
   persistence:
     enabled: true
     size: 10Gi
-    storageClassName: "observability-longhorn-storage-class"  # override in overlay if needed
+    storageClassName: "observability-longhorn-storage-class" # override in overlay if needed
 
   # Sidecar watches for ConfigMaps/Secrets labelled grafana_datasource/dashboard
   sidecar:
@@ -41,7 +41,7 @@ grafana:
 prometheus:
   prometheusSpec:
     replicas: 1
-    retention: 7d        # down from 15d
+    retention: 7d # down from 15d
     retentionSize: "18GB"
 
     storageSpec:
