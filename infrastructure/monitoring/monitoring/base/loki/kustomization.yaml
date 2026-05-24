@@ -5,10 +5,8 @@ namespace: monitoring
 
 helmCharts:
   - name: loki
-    # grafana-community/helm-charts is the new home for the OSS Loki chart
-    # as of March 16 2026 (forked from grafana/loki at chart v6.55.0).
-    repo: https://grafana.github.io/helm-charts
-    version: "6.55.0"
+    repo: ghcr.io/grafana-community/helm-charts/loki
+    version: "17.1.1"
     releaseName: loki
     namespace: monitoring
     valuesFile: values.yaml

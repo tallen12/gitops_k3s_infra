@@ -6,7 +6,7 @@ namespace: monitoring
 helmCharts:
   - name: alloy
     repo: https://grafana.github.io/helm-charts
-    version: "0.12.5"
+    version: "1.8.1"
     releaseName: alloy
     namespace: monitoring
     valuesFile: values.yaml
