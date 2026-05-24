@@ -32,6 +32,7 @@ parameters:
   numberOfReplicas: "1"
   dataLocality: "disabled"
   staleReplicaTimeout: "2880"
+  nodeSelector: "node.longhorn.io/create-default-disk=true"
 reclaimPolicy: Retain
 volumeBindingMode: Immediate
 ---
