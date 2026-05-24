@@ -27,7 +27,7 @@ grafana:
   persistence:
     enabled: true
     size: 10Gi
-    storageClassName: "longhorn-storage-class"  # override in overlay if needed
+    storageClassName: "observability-longhorn-storage-class"  # override in overlay if needed
 
   # Sidecar watches for ConfigMaps/Secrets labelled grafana_datasource/dashboard
   sidecar:
