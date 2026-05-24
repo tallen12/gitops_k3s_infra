@@ -1,0 +1,18 @@
+metricsPort: 10249
+component: kube-proxy
+serviceMonitor:
+  enabled: false
+clients:
+  port: 10013
+  useLocalhost: true
+  https:
+    enabled: false
+  # To monitor kube-proxy only on k3s worker nodes, use nodeSelector below (with any label which selects k3s worker nodes only)
+  # If you want to monitor kube-proxy in all nodes, remove nodeSelector below
+  # nodeSelector:
+  #   node-role.kubernetes.io/worker: "true"
+  tolerations:
+    - effect: "NoExecute"
+      operator: "Exists"
+    - effect: "NoSchedule"
+      operator: "Exists"
