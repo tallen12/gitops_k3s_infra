@@ -4,6 +4,6 @@ kind: Kustomization
 # Shared namespace applied before any Helm chart renders
 resources:
   - namespace.yaml
-  - kube-prometheus-stack/
+  # - kube-prometheus-stack/
   - loki/
-  - alloy/
+  # - alloy/
