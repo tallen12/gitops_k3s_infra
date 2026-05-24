@@ -5,7 +5,6 @@ namespace: redis-operator
  
 resources:
   - namespace.yaml
-  - https://github.com/OT-CONTAINER-KIT/redis-operator/config/crd/bases?ref=v0.24.0  #
  
 helmCharts:
   - name: redis-operator
@@ -14,3 +13,4 @@ helmCharts:
     releaseName: redis-operator
     namespace: redis-operator
     valuesFile: values.yaml
+    includeCRDs: true
