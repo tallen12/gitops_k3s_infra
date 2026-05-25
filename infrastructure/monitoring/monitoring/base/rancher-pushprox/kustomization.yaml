@@ -6,5 +6,5 @@ helmCharts:
     repo: https://charts.rancher.io
     version: "103.0.1"
     releaseName: pushprox-kube-proxy
-    namespace: monitoring
+    namespace: kube-system
     valuesFile: values.yaml
