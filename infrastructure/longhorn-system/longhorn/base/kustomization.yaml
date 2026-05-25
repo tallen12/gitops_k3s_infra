@@ -3,6 +3,9 @@ kind: Kustomization
 
 namespace: longhorn-system
 resources:
+  - https://raw.githubusercontent.com/kubernetes-csi/external-snapshotter/v8.2.0/client/config/crd/snapshot.storage.k8s.io_volumesnapshotclasses.yaml
+  - https://raw.githubusercontent.com/kubernetes-csi/external-snapshotter/v8.2.0/client/config/crd/snapshot.storage.k8s.io_volumesnapshotcontents.yaml
+  - https://raw.githubusercontent.com/kubernetes-csi/external-snapshotter/v8.2.0/client/config/crd/snapshot.storage.k8s.io_volumesnapshots.yaml
   - https://raw.githubusercontent.com/longhorn/longhorn/v1.11.2/deploy/longhorn.yaml
   - storage-class.yaml
 
