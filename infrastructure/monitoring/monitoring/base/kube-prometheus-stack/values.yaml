@@ -43,7 +43,7 @@ prometheus:
     replicas: 1
     retention: 7d # down from 15d
     retentionSize: "18GB"
-
+    enableRemoteWriteReceiver: true
     storageSpec:
       volumeClaimTemplate:
         spec:
