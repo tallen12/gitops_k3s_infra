@@ -74,67 +74,48 @@ alloy:
       }
       // Add metric collection for control plane nodes due to k3s metrics not being exposed as part of the binary.
       // -------------------------------------------------------
-      // 5. Discover control plane nodes
-      // -------------------------------------------------------
-      discovery.kubernetes "control_plane_nodes" {
-        role = "node"
-      }
-      discovery.relabel "control_plane" {
-        targets = discovery.kubernetes.control_plane_nodes.targets
-        // Only scrape on control plane nodes
-        rule {
-          source_labels = ["__meta_kubernetes_node_label_node_role_kubernetes_io_control_plane"]
-          regex         = "true"
-          action        = "keep"
-        }
-        // Use the node's internal IP
-        rule {
-          source_labels = ["__meta_kubernetes_node_address_InternalIP"]
-          target_label  = "__host__"
-        }
-        rule {
-          source_labels = ["__meta_kubernetes_node_name"]
-          target_label  = "node"
-        }
-      }
-      // -------------------------------------------------------
-      // 6. Scrape kube-controller-manager (only on control plane pods)
+      // 5. Scrape kube-controller-manager
       // -------------------------------------------------------
       prometheus.scrape "kube_controller_manager" {
-        targets = [for t in discovery.relabel.control_plane.output : merge(t, {
-          "__address__" = t.__host__ + ":10257",
+        targets = [{
+          "__address__" = "k3s-node-tomori:10257",
           "job"         = "kube-controller-manager",
-        })]
-        scheme           = "https"
-        scrape_interval  = "30s"
+          "node"        = "k3s-node-tomori",
+        }]
+        scheme          = "https"
+        scrape_interval = "30s"
         tls_config {
           insecure_skip_verify = true
         }
         forward_to = [prometheus.remote_write.prometheus.receiver]
       }
+
       // -------------------------------------------------------
-      // 7. Scrape kube-scheduler (only on control plane pods)
+      // 6. Scrape kube-scheduler
       // -------------------------------------------------------
       prometheus.scrape "kube_scheduler" {
-        targets = [for t in discovery.relabel.control_plane.output : merge(t, {
-          "__address__" = t.__host__ + ":10259",
+        targets = [{
+          "__address__" = "k3s-node-tomori:10259",
           "job"         = "kube-scheduler",
-        })]
-        scheme           = "https"
-        scrape_interval  = "30s"
+          "node"        = "k3s-node-tomori",
+        }]
+        scheme          = "https"
+        scrape_interval = "30s"
         tls_config {
           insecure_skip_verify = true
         }
         forward_to = [prometheus.remote_write.prometheus.receiver]
       }
+
       // -------------------------------------------------------
-      // 8. Remote write metrics to Prometheus
+      // 7. Remote write to Prometheus
       // -------------------------------------------------------
       prometheus.remote_write "prometheus" {
         endpoint {
           url = "http://kube-prometheus-stack-prometheus.monitoring.svc.cluster.local:9090/api/v1/write"
         }
       }
+
 controller:
   # Run as a DaemonSet so every node is covered
   type: daemonset
