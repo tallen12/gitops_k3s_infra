@@ -8,3 +8,5 @@ resources:
   - loki/
   - alloy/
   - rancher-pushprox/
+  - kube-controller-manager.yaml
+  - kube-scheduler.yaml
