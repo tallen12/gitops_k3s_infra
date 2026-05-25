@@ -74,29 +74,11 @@ alloy:
       }
       // Add metric collection for control plane nodes due to k3s metrics not being exposed as part of the binary.
       // -------------------------------------------------------
-      // 5. Scrape kube-controller-manager
-      // -------------------------------------------------------
-      prometheus.scrape "kube_controller_manager" {
-        targets = [{
-          "__address__" = "k3s-node-tomori:10257",
-          "job"         = "kube-controller-manager",
-          "node"        = "k3s-node-tomori",
-        }]
-        scheme          = "https"
-        scrape_interval = "30s"
-        tls_config {
-          insecure_skip_verify = true
-        }
-        forward_to = [prometheus.remote_write.prometheus.receiver]
-      }
-
-      // -------------------------------------------------------
-      // 6. Scrape kube-scheduler
+      // 5. Scrape kube-controller-manager and scheduler
       // -------------------------------------------------------
       prometheus.scrape "kube_scheduler" {
         targets = [{
           "__address__" = "k3s-node-tomori:10259",
-          "job"         = "kube-scheduler",
           "node"        = "k3s-node-tomori",
         }]
         scheme          = "https"
@@ -104,11 +86,40 @@ alloy:
         tls_config {
           insecure_skip_verify = true
         }
+        forward_to = [prometheus.relabel.kube_scheduler.receiver]
+      }
+
+      prometheus.relabel "kube_scheduler" {
+        rule {
+          target_label = "job"
+          replacement  = "kube-scheduler"
+        }
+        forward_to = [prometheus.remote_write.prometheus.receiver]
+      }
+
+      prometheus.scrape "kube_controller_manager" {
+        targets = [{
+          "__address__" = "k3s-node-tomori:10257",
+          "node"        = "k3s-node-tomori",
+        }]
+        scheme          = "https"
+        scrape_interval = "30s"
+        tls_config {
+          insecure_skip_verify = true
+        }
+        forward_to = [prometheus.relabel.kube_controller_manager.receiver]
+      }
+
+      prometheus.relabel "kube_controller_manager" {
+        rule {
+          target_label = "job"
+          replacement  = "kube-controller-manager"
+        }
         forward_to = [prometheus.remote_write.prometheus.receiver]
       }
 
       // -------------------------------------------------------
-      // 7. Remote write to Prometheus
+      // 6. Remote write to Prometheus
       // -------------------------------------------------------
       prometheus.remote_write "prometheus" {
         endpoint {
