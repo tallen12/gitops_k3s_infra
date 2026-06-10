@@ -41,8 +41,8 @@ grafana:
 prometheus:
   prometheusSpec:
     replicas: 1
-    retention: 7d # down from 15d
-    retentionSize: "18GB"
+    retention: 3d # down from 15d
+    retentionSize: "28GB"
     enableRemoteWriteReceiver: true
     storageSpec:
       volumeClaimTemplate:
@@ -51,7 +51,7 @@ prometheus:
           storageClassName: observability-longhorn-storage-class
           resources:
             requests:
-              storage: 20Gi
+              storage: 30Gi
     # Allow the operator to pick up ServiceMonitors from all namespaces
     serviceMonitorSelectorNilUsesHelmValues: false
     podMonitorSelectorNilUsesHelmValues: false
@@ -77,22 +77,10 @@ alertmanager:
               storage: 5Gi
 
 kubeControllerManager:
-  # Add all k3s Control-Plane IPs
-  endpoints: []
-  service:
-    enabled: false
-  serviceMonitor:
-    https: true
-    insecureSkipVerify: true
+  enabled: false
 
 kubeScheduler:
-  # Add all k3s Control-Plane IPs
-  endpoints: []
-  service:
-    enabled: false
-  serviceMonitor:
-    https: true
-    insecureSkipVerify: true
+  enabled: false
 
 kubeEtcd:
   enabled: false
